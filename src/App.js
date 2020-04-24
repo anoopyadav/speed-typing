@@ -10,13 +10,14 @@ function App() {
   const [wordCount, setWordCount] = useState(0);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (timeRemaining > 0 && gameHasStarted)
-        setTimeRemaining(prevTime => prevTime - 1);
-      if (timeRemaining === 0)
-        endGame();
-    }, 1000);
-    // eslint-disable-next-line
+    if (timeRemaining > 0 && gameHasStarted) {
+      setTimeout(() => {
+          setTimeRemaining(prevTime => prevTime - 1);
+      }, 1000);
+    }
+    else if (timeRemaining === 0)
+      endGame();
+  // eslint-disable-next-line
   }, [timeRemaining, gameHasStarted]);
 
   function startGame() {
