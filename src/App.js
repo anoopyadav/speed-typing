@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
 function App() {
@@ -8,6 +8,7 @@ function App() {
   const [gameHasStarted, setGameHasStarted] = useState(false);
   const [text, setText] = useState("");
   const [wordCount, setWordCount] = useState(0);
+  const textContainer = useRef(null);
 
   useEffect(() => {
     if (timeRemaining > 0 && gameHasStarted) {
@@ -24,6 +25,10 @@ function App() {
     setText("");
     setTimeRemaining(GAME_DURATION);
     setGameHasStarted(true);
+
+    // Required beacuse can't focus a disabled element
+    textContainer.current.disabled = false;
+    textContainer.current.focus();
   }
 
   function endGame() {
@@ -45,11 +50,11 @@ function App() {
       </header>
       <main>
         <textarea
+          ref={textContainer}
           disabled={!gameHasStarted}
           onChange={(event) => setText(event.target.value)}
           value={text}
-        >
-        </textarea>
+        />
         <button
           onClick={() => startGame()}
           disabled={gameHasStarted}
